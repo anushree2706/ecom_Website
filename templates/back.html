@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+<div class="container">
+      <section class="mt-2 pt-2">
+        <div class="row wow fadeIn">
+        <div class="card m-1 mx-auto p-4" >
+            <div class="container">
+                <h2>Payment status regarding your order Id :{{response.ORDERID}}</h2><br>
+
+                {% if response.RESPCODE == '01' %}
+                <h4>ORDER SUCCESS</h4>
+                {% else %}
+                <h4>ORDER FAILURE</h4>
+                {% endif%}
+                <hr>
+                <table class=" table-responsive text-nowrap">
+                    <tr>
+                        <td><h5>Transaction ID</h5></td>
+                        <td><h5><b>: {{response.TXNID}}</b></h5></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Transaction amount</h5></td>
+                        <td><h5><b>: {{response.TXNAMOUNT}}</b></h5></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Transaction date</h5></td>
+                        <td><h5><b>: {{response.TXNDATE}}</b></h5></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Transaction status</h5></td>
+                        <td><h5><b>: {{response.STATUS}}</b></h5></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Message</h5></td>
+                        <td><h5><b>: {{response.RESPMSG}}</b></h5></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        </div>
+      </section>
+</div>
+</main>
+{% endblock content %}

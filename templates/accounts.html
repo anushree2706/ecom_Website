@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<main>
+
+    <!-- new order list htmls-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-3 col-md-4" style="padding:10px;">
+                <div class="contact_body"
+                    <div class="card text-center contact_top">
+                        <h1 class="contact_header pt-2"><i class="fa fa-user-circle" class="" aria-hidden="true"></i>
+                        </h1>
+                        <p class="mt-1"><b style="text-transform:capitalize;">{{ request.user }}</b><br>
+                            {{ phone.phone_num }}<br>
+                            {{ request.user.email }}<br>
+                        </p>
+                    </div>
+                    <div class="card my-3 p-0 text-center">
+                        <div class="pt-3" style="background:#E1E0E0;border-radius:5px 5px 0px 0px;"><b> Default
+                            Address </b></div>
+                        <p class="mt-1">
+                            {% if address %}
+                            {{ address.street_address }}<br>
+                            {{ address.apartment_address }}<br>
+                            {{address.state}} - {{ address.zip }}<br>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8 mx-auto" style="padding:10px;">
+                {% for i in ordered %}
+                <div class="card p-3 my-3">
+                    <div>
+                        <a class="float-right" href="{% url 'accounts:orders' pk=i.id %}"><h5 class="linking">Order
+                            details </h5></a>
+                        <h5>Order placed on:&nbsp{{i.ordered_date}}</h5>
+                        <h5>Order ID:{{ i.id }}</h5>
+                    </div>
+                    <div class="justify-content-between">{% for j in i.items.all %}
+                        <div class="flex-container flex-row" style="display:flex;">
+                            <div class="d-flex flex-row">
+                                <div class="pb-1">
+                                    <img class="" src="{{j.item.image.url}}" width="100px" height="100px" alt="">
+                                </div>
+                                <div class="pl-4 pb-1">
+                                    <p>{{j.item}}<br>
+                                        Size:{{j.size.size}}<br>
+                                        Quantity:{{j.quantity}}<br>
+                                        Price:{{ j.item.price }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="d-flex justify-content-end">
+                            {% if i.received %}
+                            <p style="color:green!important;">Order Delivered</p>
+                            {% else %}
+                            <p style="color:red!important;">Being Delivered . . .</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+
+

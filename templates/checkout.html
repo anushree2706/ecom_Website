@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<main xmlns="http://www.w3.org/1999/html">
+    <div class="container wow fadeIn">
+      <h2 class="my-2 h2 text-center">Checkout form</h2>
+      <div class="row">
+        <div class="col-md-4" >
+
+          <div class="" style="position:sticky!important;top:50px!important;">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Your cart</span>
+              <span class="badge badge-primary badge-pill">{{ order.items.count }}</span>
+              </h4>
+              <ul class="list-group mb-3 z-depth-1">
+              {% for order_item in order.items.all %}
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                  <div>
+                  <h6 class="my-0">{{ order_item.quantity }} x {{ order_item.item.title}}</h6>
+<!--                  <small class="text-muted">{{ order_item.item.description}}</small>-->
+                  </div>
+                  <span class="text-muted">₹{{ order_item.get_final_price }}</span>
+              </li>
+              {% endfor %}
+              {% if order.coupon %}
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                  <div class="text-success">
+                  <h6 class="my-0">Promo code</h6>
+                  <small>{{ order.coupon.code }}</small>
+                  </div>
+                  <span class="text-success">-₹{{ order.coupon.amount }}</span>
+              </li>
+              {% endif %}
+              <li class="list-group-item d-flex justify-content-between">
+                  <span>Total (INR)</span>
+                  <strong>₹{{ order.get_total }}</strong>
+              </li>
+              </ul>
+
+            <form method="POST" class="">
+              {% csrf_token %}
+          {% if default_shipping_address %}
+          <div class="card mt-4" style="padding:5px;">
+              <div class="custom-control custom-checkbox" style="padding:0px!important;">
+                <div class="pl-4" style="background:#E1E0E0;">
+                  <input checked type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping" style="background:#99b898;">
+                  <label class="custom-control-label" for="use_default_shipping">Default shipping address</label>
+                </div>
+                <hr class="p-1 m-0">
+                <div>
+                <h6>{{ default_shipping_address.street_address}}</h6>
+                <h6> {{ default_shipping_address.apartment_address }}</h6>
+                <h6>{{ default_shipping_address.state }}</h6>
+                <h6> {{ default_shipping_address.zip }}</h6>
+                <h6>{{ default_shipping_address.phone }}</h6>
+                </div>
+              </div>
+          </div>
+          {% endif %}
+          </div>
+        </div>
+
+
+        <div class="col-md-8 mb-4">
+          <div class="card-body px-0 py-0">
+          <br>
+              <div class="card" style="padding:10px;">
+                <h5 >Shipping address</h5>
+
+                <div class='hideable_shipping_form'>
+
+                  <div class="md-form mb-5">
+                    <input type='text'  id='shipping_address' name='shipping_address' class='form-control' />
+                    <label for="shipping_address" class="">Address</label>
+                  </div>
+
+                  <div class="md-form mb-5">
+                    <input type='text'  id='shipping_address2' name='shipping_address2' class='form-control' />
+                    <label for="shipping_address2" class="">Address 2 (optional)</label>
+                  </div>
+
+                  <div class="md-form mb-5">
+                    <input type='tel'  id='phone' name='shipping_phone' maxlength="13" class='form-control' />
+                    <label for="phone" class="">Enter Phone</label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-4 col-md-12 mb-4">
+                      <label for="shipping_state">state</label>
+                      <select id="shipping_state" name="shipping_state" class='form-control' >
+                        <option value="" disabled selected>Select option</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option></option>
+                        <option value="Arunachal Pradesh ">Arunachal Pradesh </option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jammu and Kashmir ">Jammu and Kashmir </option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="National Capital Territory of Delhi">National Capital Territory of Delhi</option>
+                        <option value="Puducherry">Puducherry
+                      </select>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                      <label for="shipping_zip">Zip</label>
+                      <input type='text' placeholder='Zip code' id='shipping_zip' name='shipping_zip' class='form-control' />
+                      <div class="invalid-feedback">
+                        Zip code required.
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="form-control custom-control-input" name="set_default_shipping" id="set_default_shipping">
+                    <label class="custom-control-label" for="set_default_shipping">Save as default shipping address</label>
+                  </div>
+
+                </div>
+                <hr>
+
+                <h3>Payment option</h3>
+                <div class="d-block my-3">
+                  {% for value, name in form.fields.payment_option.choices %}
+                  <div class="custom-control custom-radio">
+                    <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio" class="form-control custom-control-input" required>
+                    <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                  </div>
+                  {% endfor %}
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+              </div>
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+var hideable_shipping_form = ₹('.hideable_shipping_form');
+
+var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
+
+use_default_shipping.addEventListener('change', function() {
+  if (this.checked) {
+    hideable_shipping_form.hide();
+  } else {
+    hideable_shipping_form.show();
+  }
+})
+
+</script>
+{% endblock extra_scripts %}

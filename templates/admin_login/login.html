@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <title>Admin</title>
+</head>
+<body>
+<main><link href="{% static 'css/formss.css' %}" rel="stylesheet">
+<div class="container">
+      <section class="mt-2 pt-2">
+        <div class="row wow fadeIn">
+        <div class="card m-1  mx-auto p-4" style="width:500px!important;">
+
+            <h1>Sign In</h1>
+            <p> If you have not created an account yet,
+             <a href="{% url 'accounts:account_signup' %}" style="color:#007e92;">Sign up</a></p>
+
+            <form action="{% url 'accounts:account_login' %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <input type="text" name="uname" id=""  class="form-control mt-2" required>
+                    <label>Username<span>*</span></label>
+                </div>
+
+                <div>
+                    <input type="password" name="pass" id=""  class="form-control" required>
+                    <label>Password<span>*</span></label>
+                </div>
+
+                <div>
+                    <a style="width:170px!important;" type="submit" value=" " class=" btn btn-default" href="{% url 'password_reset' %}">forgot password?</a>
+                    <input type="submit" value="Login" class="btn btn-primary">
+                </div>
+
+            </form>
+          </div>
+        </div>
+      </section>
+</div>
+</main>
+
+</body>
+</html>

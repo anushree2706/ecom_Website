@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<main><link href="{% static 'css/formss.css' %}" rel="stylesheet">
+<div class="container">
+      <section class="mt-2 pt-2">
+        <div class="row wow fadeIn">
+        <div class="card m-1  mx-auto p-4" style="width:500px!important;">
+
+            <h1>Sign In</h1>
+            <p> If you have not created an account yet,
+             <a href="{% url 'accounts:account_signup' %}" style="color:#007e92;">Sign up</a></p>
+
+            <form action="{% url 'accounts:account_login' %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <input type="text" name="uname" id=""  class="form-control mt-2" required>
+                    <label>Username<span>*</span></label>
+                </div>
+
+                <div>
+                    <input type="password" name="pass" id=""  class="form-control" required>
+                    <label>Password<span>*</span></label>
+                </div>
+
+                <div>
+                    <a style="width:170px!important;" type="submit" value=" " class=" btn btn-default" href="{% url 'password_reset' %}">forgot password?</a>
+                    <button type="submit" value="Login" class="btn btn-primary">Log In </button>
+                </div>
+
+            </form>
+          </div>
+        </div>
+      </section>
+</div>
+</main>
+{% endblock content %}

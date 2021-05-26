@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <main>
+    <div class="container mt-2 pt-2" style="overflow-x:auto;">
+    <div class="row">
+    <div class="col-12">
+    <div class="table-responsive text-nowrap">
+    <h2>Order Summary</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col"><h5>Item title</h5></th>
+            <th scope="col"><h5>Price</h5></th>
+            <th scope="col"><h5>Size</h5></th>
+            <th scope="col"><h5>Quantity</h5></th>
+            <th scope="col"><h5>Total Item Price</h5></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order_item in object.items.all %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><h5>{{ order_item.item.title }}</h5></td>
+            <td><h5>{{ order_item.item.price }}</h5></td>
+            <td><h5>{{ order_item.size.size }}</h5></td>
+            <td>
+                <div class="row">
+                <div class="col-md-4 col-4">
+                <form action="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}" method="post">
+					{% csrf_token %}
+                    <input type="hidden" name="remove" value="{{order_item.size.size}}">
+                    <button class="fa_minus" type="submit"><i class="fas fa-minus mr-2"></i></button>
+                </form>
+                </div>
+<!--                <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>-->
+                <div class="col-md-4 col-4 item_quantity">
+                {{ order_item.quantity }}
+                </div>
+                <div class="col-md-4 col-4">
+                 <form action="{% url 'core:add_single_item_to_cart' order_item.item.slug %}" method="post">
+					{% csrf_token %}
+                    <input type="hidden" name="add" value="{{order_item.size.size}}">
+                    <button class="fa_plus" type="submit"><i class="fas fa-plus mr-2"></i></button>
+                </form>
+                </div>
+                </div>
+<!--                <a href="{% url 'core:add-to-cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>-->
+<!--                <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>-->
+<!--                {{ order_item.quantity }}-->
+<!--                <a href="{% url 'core:add-to-cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>-->
+            </td>
+            <td>
+            {% if order_item.item.discount_price %}
+                ₹{{ order_item.get_total_discount_item_price }}
+                <span class="badge badge-primary">Saving ₹{{ order_item.get_amount_saved }}</span>
+            {% else %}
+                ₹{{ order_item.get_total_item_price }}
+            {% endif %}
+<!--            <a style='color: red;' href="{% url 'core:remove-from-cart' order_item.item.slug %}">-->
+<!--                <i class="fas fa-trash float-right"></i>-->
+<!--            </a>-->
+            </td>
+            <td>
+                <form action="{% url 'core:remove-from-cart' order_item.item.slug %}" method="post">
+					{% csrf_token %}
+                    <input type="hidden" name="size" value="{{order_item.size.size}}">
+                    <button class="fa_trash" type="submit"><i class="fas fa-trash float-right"></i></button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan='7 '>Your cart is empty</td>
+        </tr>
+        <tr>
+            <td colspan="5">
+            <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if object.coupon %}
+        <tr>
+            <td colspan="4"><b>Coupon</b></td>
+            <td><b>-₹{{ object.coupon.amount }}</b></td>
+        </tr>
+        {% endif %}
+        {% if object.get_total %}
+        <tr>
+            <td></td>
+            <td colspan="2"><h4>Order Total</h4></td>
+            <td></td>
+            <td></td>
+            <td colspan="6"><h4>₹{{ object.get_total }}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="7">
+            <a class='btn btn-primary float-right ml-2' href='/checkout/'>Proceed to checkout</a>
+            <a class='btn btn-danger float-right' href='/'>Continue shopping</a>
+            </td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    </div>
+    </div>
+      </div>
+    </div>
+  </main>
+<!--<script>-->
+
+<!--</script>-->
+{% endblock content %}
+
+

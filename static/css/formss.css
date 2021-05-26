@@ -1,0 +1,73 @@
+/* forms login & sign ups  */
+
+
+form .form-control {
+    box-shadow:none!important;
+    padding: 10px 0;
+    margin-bottom:40px;
+    box-sizing:border-box;
+    outline: none!important;
+    border: none !important;
+    border-bottom:1px solid grey!important;
+}
+
+
+form .form-control  {
+    position: relative;
+}
+form div {
+    position: relative;
+}
+form div label{
+        position: absolute;
+        top: 10px;
+        left: 0;
+        color:lightgrey;
+        transition: 0.5s;
+        pointer-events: none;
+}
+
+form input:focus ~ label,
+form input:valid ~ label
+{
+    top:-18px;
+    left: 0;
+    color:#007e92;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+form input:focus ,
+form input :valid
+{
+    border-bottom: 1px solid #007e92!important;
+}
+
+form textarea{
+        width:100%;
+        box-sizing:border-box;
+        box-shadow: none;
+        outline: none;
+        border:none;
+        border-bottom: 1px solid black;
+}
+form textarea{
+    margin-bottom:20px;
+}
+form div label{
+        position: absolute;
+        top: 10px;
+        left: 0;
+        color:lightgrey;
+        transition: 0.5s;
+        pointer-events: none;
+}
+
+form textarea:focus ~ label,
+form textarea:valid ~ label {
+    top:-18px;
+    left: 0;
+    color:#007e92;
+    font-size: 12px;
+    font-weight: bold;
+}

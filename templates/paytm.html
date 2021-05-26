@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+  <div class="container mt-5 p-0">
+    <div class="text-center">
+        <h3><b>Redirecting you to the payment page...</b></h3>
+        <h3><b>Please do not refresh the page....</b></h3>
+        <form action="https://securegw-stage.paytm.in/order/process" method="post" name="paytm">
+            {% for key, value in param_dict.items %}
+            <input type="hidden" name="{{key}}" value="{{value}}">
+            {% endfor %}
+        </form>
+    </div>
+  </div>
+
+  <div class="container mt-4 p-0">
+      <div class="row text-center">
+      <div class="col-1 col-md-2"></div>
+      <div class="col-10 col-md-8">
+          <div class="loader">
+              <div class="loader">
+                  <img src="{% static 'img/giphy.gif' %}">
+              </div>
+          </div>
+      </div>
+      <div class="col-1 col-md-2"></div>
+      </div>
+  </div>
+</main>
+<script>
+document.paytm.submit()
+</script>
+{% endblock %}

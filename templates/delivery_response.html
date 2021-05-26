@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+<div class = "container">
+    <div class = "row">
+        <div class ="col-12">
+            <h3 class="text-center"> Order Details</h3>
+            <form class="form-inline float-right" action="/adminapp/admin-search/ " method="post">
+                {% csrf_token %}
+                <input class="searching mr-sm-2" name="srh" type="text" name="srh" data-toggle="popover" data-placement="bottom" placeholder="Search" aria-label="Search" style="box-shadow:none!important;border:none;border-bottom:1px solid lightgrey;">
+                <button type="submit"class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row">
+        {% if ordered %}
+        {% for o in ordered %}
+        <div class="col-md-6 col-lg-6 col-12 px-0">
+            <div class="card m-2 pt-2 " style="">
+                <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6 px-0">
+                        <div class="px-2">
+                            <h5>Order id :{{o.id}}</h5>
+                            <h6>Ordered date : {{o.ordered_date}}</h6>
+                            <h6>reciever name :  {{o.user}}</h6>
+                            <h6>reciever email :  {{o.user.email }}</h6>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-6 px-0">
+                        <div class="px-2">
+                            <h5>Address</h5>
+                            <h6>{{o.shipping_address.street_address }}</h6>
+                            <h6>{{o.shipping_address.apartment_address }}</h6>
+                            <h6>{{o.shipping_address.state }}&nbsp-&nbsp{{o.shipping_address.zip }}</h6>
+                            <h6>{{o.shipping_address.phone }}</h6>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="container">
+                <div class="row">
+                    {% for item in  o.items.all%}
+                        <div class="col-lg-6 col-md-6 col-12 px-0" >
+                            <img class="float-left ml-3 mb-2" src="{{ item.item.image.url }}" height="100px" width="100px">
+                            <div class="text-center">
+                                <h6>Size : {{ item.size.size}} </h6>
+                                <h6>Quantity : {{ item.quantity}}</h6>
+                                 {% if item.item.discount_price %}
+                                <h6>Price :₹{{ item.get_total_discount_item_price }}</h6>
+
+                                 {% else %}
+                                <h6>Price :  ₹{{ item.get_total_item_price }}</h6>
+                                 {% endif %}
+<!--                                <h6>Price :{{ item.item.price }}</h6>-->
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                </div>
+                <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12 px-0">
+                        <div class="text-center">
+                            <h6>Payment type : {{ o.payment_mode }}</h6>
+                            {% if o.paytmpayment.txn_id %}
+                            <h6>Payment id : {{ o.paytmpayment.txn_id }}</h6>
+                            {% endif %}
+                            <h6>Total Amount : ₹{{ o.get_total }}</h6>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12 px-0 text-center mx-auto pb-2">
+                        <a href="{% url 'adminapp:delivery_response_confirm' pk=o.id%}" class="btn btn-default " tabindex="-1" role="button">Complete delivery</a>
+                        <a href="{% url 'adminapp:generate_bill' pk=o.id%}" class="btn btn-primary " tabindex="-1" role="button">Generate Bill</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+
+        <!-- adminapp customer page -->
+        {% if customer_detail %}
+        <div class="  px-0">
+            <div class=" m-2 pt-2" >
+                <div class="container">
+                <div class="row">
+
+                         <div class="list-group">
+                              <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                  <h5 class="mb-1"></h5>
+                                  <small class="text-muted"></small>
+                                </div>
+                                  <h6 style="transform:capitalize;">Order id :{{customer_detail.id}}</h6>
+                                  <h5 class="mb-1">
+                                    Receiver name :  {{customer_detail.user}}<br>
+                                    Ordered date : {{customer_detail.ordered_date}}<br>
+                                    Receiver email :  {{customer_detail.user.email }}
+                                  </h5><hr>
+                                <h6 class="mb-1">Address</h6>
+                                  <h5 class="mb-1">{{customer_detail.shipping_address.street_address }}<br>
+                                    {{customer_detail.shipping_address.apartment_address }}<br>
+                                    {{customer_detail.shipping_address.state }}&nbsp-&nbsp{{customer_detail.shipping_address.zip }}<br>
+                                    {{customer_detail.shipping_address.phone }}
+                                  </h5><hr>
+                                  <p>
+                                      <h5>Payment type : {{ customer_detail.payment_mode }}</h5>
+                                      {% if customer_detail.paytmpayment.txn_id %}
+                                      <h5>Payment id : {{ customer_detail.paytmpayment.txn_id }}</h5>
+                                      {% endif %}
+
+                                      <h5>Total Amount :₹&nbsp{{ customer_detail.get_total }}</h5>
+
+                                  </p>
+                                  <p>
+                                      <a href="{% url 'adminapp:delivery_response_confirm' pk=customer_detail.id%}" class="btn btn-primary " tabindex="-1" role="button">Complete delivery</a>
+                                      <a href="{% url 'adminapp:generate_bill' pk=customer_detail.id%}" class="btn btn-primary " tabindex="-1" role="button">Generate Bill</a>
+                                  </p>
+                                    <small class="text-muted"></small>
+                              </div>
+                         </div>
+
+                         <div class="list-group ml-2" >
+                              <div class="list-group-item list-group-item-action flex-column align-items-start p-0" style="position:sticky!important;top:150px!important;">
+                                <div class="d-flex w-100 justify-content-around">
+                                  <h5 class="mb-1"></h5>
+                                  <small class="text-muted"></small>
+                                </div>
+                                <p class="mb-1">
+                                    {% for item in  customer_detail.items.all%}
+                                    <div class="d-flex flex-row my-0" >
+                                        <div class="p-2">
+                                            <img class="mb-2" src="{{ item.item.image.url }}" height="100px" width="100px">
+                                        </div>
+                                        <div class="my-auto pr-1">
+                                            <p> Size : {{ item.size.size }} <br>
+                                                Quantity : {{ item.quantity }}<br>
+                                                {% if item.item.discount_price %}
+                                                Price :₹&nbsp{{ item.get_total_discount_item_price }}
+                                                 {% else %}
+                                                Price :  ₹&nbsp{{ item.get_total_item_price }}
+                                                 {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </p>
+                                <small class="text-muted"></small>
+                              </div>
+                         </div>
+
+                </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+         {% endif %}
+    <!-- adminapp customer page -->
+</div>
+
+
+    <div class="mt-5">
+      {% if ordered.has_other_pages %}
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+        <li class="page-item ">
+            {% if ordered.has_previous %}
+          <a class="page-link" href="?page={{ ordered.previous_page_number }}" tabindex="-1">Prev</a>
+            {% endif %}
+        </li>
+        {% for i in ordered.paginator.page_range %}
+            {% if ordered.number == i %}
+        <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% elif i > ordered.number|add:'-2' and i < ordered.number|add:'2' %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+        <li class="page-item">
+        {% if ordered.has_next %}
+          <a class="page-link" href="?page={{ ordered.next_page_number }}">Next</a>
+        {% endif %}
+        </li>
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+    </div>
+    </div>
+</div>
+
+</main>
+{% endblock content %}

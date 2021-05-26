@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+      <style>
+         table{
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+
+            border: 2px solid #ddd;
+        }
+
+        .tfirst{
+          table-layout:fixed;
+        }
+        .tsecond{
+          table-layout:auto;
+        }
+        .tthird{
+          table-layout:fixed;
+        }
+        .t1{
+            font-family: sans-serif;
+            font-size: 30px;
+            font-weight: 300;
+            text-align:center;
+        }
+        .th{
+          text-align:left;
+        }
+
+      </style>
+   </head>
+
+
+   <main>
+    <div class="container">
+        <!-- 1st Table-->
+      <table class="tfirst" border = "1">
+         <tr>
+            <td class="t1"><strong>BIBZ India</strong></td>
+            <td class="t1"><strong>Tax invoice</strong></td>
+            <td class="t1"><strong>BIBZ BOLE TO LEGGINGS</strong></td>
+         </tr>
+
+         <tr>
+            <td>If Undelivered, Return to:<hr style="border-top: 1px dotted;">
+                70/9 Channakrishnappa Building<br>
+                Thindlu Main Road<br>
+                K Veeranna Layout<br>
+                Vidyaranyapura Post<br>
+                Bangalore - 560097<br>
+                MOB - 08042045246   </td>
+            <td>
+                <table border="1">
+                    <tr>
+                        <th>RECEIVER</th>
+                        <th>BILLEED TO</th>
+                    </tr>
+                    <tr></tr>
+                        <td>Name</td>
+                        <td>{{ order.user.username|title }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>Billing Address1</td>
+                        <td>{{ order.shipping_address.street_address }}</td>
+                    </tr>
+                    <tr>
+                        <td>Billing Address2</td>
+                        <td>{{ order.shipping_address.apartment_address }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>State</td>
+                        <td>{{ order.shipping_address.state }}</td>
+                    </tr>
+                    <tr>
+                        <td>Zip code</td>
+                        <td>{{ order.shipping_address.zip }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>Contact no</td>
+                        <td>{{ order.shipping_address.phone }}</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                 <table border="1">
+                    <tr>
+                        <td>Order ID</td>
+                        <td>{{ order.id }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>Bill Date</td>
+                        <td>{{ now }}</td>
+                    </tr>
+
+                        <td>Payment Mode</td>
+                        <td>{{ order.payment_mode }}</td>
+                    </tr>
+                    {% if order.payment.txn_id %}
+                    <tr>
+                        <td>Transaction Number</td>
+                        <td>{{ order.payment.txn_id }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+
+            </td>
+         </tr>
+      </table>
+      <table class="tsecond" border="1">
+          <tr>
+              <th>SI</th>
+              <th>PRODUCT NAME</th>
+              <th>QUANTITY(RS)</th>
+              <th>PRICE(RS)</th>
+              <th>DISCOUNT(RS)</th>
+              <th>TAXABLE AMOUNT(RS)</th>
+              <th>TAX TYPE</th>
+              <th>TAX RATE(%)</th>
+              <th>TAX AMOUNT(RS)</th>
+
+          </tr>
+          {% for o in order.items.all %}
+
+
+          <tr>
+              <td>{{ forloop.counter }}</td>
+              <td style="text-align:left;">{{ o.item.title }}</td>
+              <td>{{ o.quantity }}</td>
+              <td>{{ o.item.price }}</td>
+              <td>{{ o.item.discount_price }}</td>
+              <td>{{ o.get_taxable_amount }}</td>
+              <td>SGST</td>
+              <td>18%</td>
+              <td>{{ o.get_tax_amount }}</td>
+          </tr>
+          {% endfor %}
+      </table>
+          <tr>
+              <td>
+                  <table class="tsecond" border="1">
+                       <tr>
+                           <td>
+                               Amount in letters
+                           </td>
+                           <td>
+                               {{ amount_in_number }} Rupees
+                           </td>
+                           <td>
+                               total payable amount
+                           </td>
+                           <td>
+                               ₹{{ order.get_total }}
+                           </td>
+                       </tr>
+                   </table>
+              </td>
+          </tr>
+      </table>
+       </div>
+   </main>
+ {% endblock content %}

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{%  load static %}
+{% block content %}
+
+<main>
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <div class="container">
+
+<!--  search field    -->
+    <div class="row">
+            <div class="col-12">
+                <form class="form-inline float-right" action="/search/" method="post">
+                {% csrf_token %}
+                <input class="searching mr-sm-2" type="text" name="srh" placeholder="Search" aria-label="Search">
+                <button type="submit"class="btn btn-primary">Search</button>
+                </form>
+            </div>
+    </div>
+<!--  search field    -->
+
+<!--            for search items       -->
+       <div class="container">
+           <div class="row">
+            {% if sr %}
+            {% for item in sr %}
+          <div class="col-6 col-lg-3 col-md-6 mb-4 procol">
+
+              <div class="card product">
+
+              <div class="view overlay">
+              <div class="innerimage">
+                <img src="{{ item.image.url }}" class="card-img-top">
+
+                <a href="{{ item.get_absolute_url }}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+                  <div class="on_image">
+                    <a href="{% url 'core:add_to_wish_list' slug=item.slug %}"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                </div>
+              </div>
+              </div>
+
+              <div class="card-body card-body1 text-center">
+<!--                <a href="" class="grey-text">-->
+<!--                  <h5>{{ item.get_category_display }}</h5>-->
+<!--                </a>-->
+                <div class="item_title mx-auto"
+                    <a style="overflow" href="{{ item.get_absolute_url }}" class="dark-grey-text">{{ item.title }}
+
+                    </a>
+                </div>
+<!--                  <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>-->
+
+                <h6 class="font-weight-bold pt-2">
+                  <strong>₹
+                  {% if item.discount_price %}
+                <del>₹{{ item.price }}</del>
+                  {{ item.discount_price }}
+                  {% else %}
+                  {{ item.price }}
+                  {% endif %}
+                  </strong>
+                </h6>
+
+              </div>
+
+            </div>
+
+          </div>
+          {% endfor %}
+          {% endif %}
+       </div>
+    </div>
+<!--            search items ends       -->
+
+    <section class="text-center mb-4 mt-1">
+        <div class="row wow fadeIn">
+
+ {% if object_list %}
+
+            {% if not page_obj.has_previous %}
+             {% include "carousel.html" %}
+
+            {% endif %}
+
+          {% for item in object_list %}
+
+          <div class="col-6 col-lg-3 col-md-6 mb-4 procol">
+
+              <div class="card product">
+
+              <div class="view overlay">
+                {% comment %} <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg" class="card-img-top img-fluid" {% endcomment %}
+              <div class="innerimage">
+                <img src="{{ item.image.url }}" class="card-img-top">
+
+                <a href="{{ item.get_absolute_url }}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+                <div class="on_image">
+                    <a href="{% url 'core:add_to_wish_list' slug=item.slug %}"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                </div>
+              </div>
+              </div>
+
+              <div class="card-body card-body1 text-center">
+<!--                <a href="" class="grey-text">-->
+<!--                  <h5>{{ item.get_category_display }}</h5>-->
+<!--                </a>-->
+                <div class="item_title mx-auto"
+                    <a style="overflow" href="{{ item.get_absolute_url }}" class="dark-grey-text">{{ item.title }}</a>
+                </div>
+<!--                  <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>-->
+
+                <h6 class="font-weight-bold pt-2">
+                  <strong>
+                  {% if item.discount_price %}
+                <del>₹{{ item.price }}</del>
+                  ₹{{ item.discount_price }}
+                  {% else %}
+                  ₹{{ item.price }}
+                  {% endif %}
+                  </strong>
+                </h6>
+              </div>
+
+            </div>
+
+          </div>
+          {% endfor %}
+      {% endif %}
+        </div>
+
+      </section>
+      <!--Section: Products v.3-->
+
+      <!--Pagination-->
+
+      {% if is_paginated %}
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+        <li class="page-item ">
+            {% if page_obj.has_previous %}
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Prev</a>
+            {% endif %}
+        </li>
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+        <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}
+        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+            {% endfor %}
+        <li class="page-item">
+        {% if page_obj.has_next %}
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+        </li>
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+  </main>
+
+{% endblock content %}
+
+

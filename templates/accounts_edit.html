@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class ="col-md-6 offset-2">
+
+        <h3>Shipping Address</h3><hr><hr>
+
+        Name = {{ request.user }} <br>
+        Email = {{ request.user.email }} <br><br>
+
+        {% if s_address.street_address %}
+        street address = {{  s_address.street_address }}   <br>
+        {% endif %}
+         {% if s_address.apartment_address %}
+        appartment address =  {{ s_address.apartment_address }}  <br>
+        {% endif %}
+        {% if phone.phone %}
+         user phone =  {{ phone.phone }}  <br>
+        {% endif %}
+          {% if s_address.phone %}
+         delivery phone =  {{ s_address.phone }}  <br>
+        {% endif %}
+         {% if s_address.zip %}
+        pin code =  {{ s_address.zip }}  <br>
+        {% endif %}
+
+        {% if s_address.state %}
+        state =  {{ s_address.state }}  <br><br>
+        {% endif %}
+         <a href="{% url 'core:accountsedit' %}" class="btn btn-primary btn-rounded">add or edit details</a></button>
+         <a href="{% url 'account_logout' %}" class="btn btn-danger btn-rounded">logout</a></button>
+
+
+
+<!--        <form class="" action="/accountsedit/" method="post">-->
+<!--      {% csrf_token %}-->
+
+<!--          name: <input type="text" name="name" placeholder="" value="{{ request.user }}"  required /><br>-->
+<!--          email: <input type="email" name="email" placeholder="" value="{{ request.user.email }}"  required /><br>-->
+<!--          <br><br><br>-->
+<!--          <h3>Shiping Address</h3> <br>-->
+
+<!--          street address:<input type="text" name="s_streets_address" placeholder="" value="{{  s_address.street_address }}"  required /><br>-->
+<!--          apartment address<input type="text" name="s_apartment_address" placeholder="" value="{{ s_address.apartment_address }}"  required /><br>-->
+<!--          state: <input type="text" name="s_state" placeholder="" value="{{ s_address.state }}"  required /><br>-->
+<!--          pincode: <input type="text" name="s_pincode" placeholder="" value="{{ s_address.zip }}"  required /><br>-->
+<!--          phone: <input type="text" name="s_phone" placeholder="" value="{{ p.phone }}"  required /><br>-->
+
+<!--                    <input type="submit" name="signup_submit" value="submit"/>-->
+<!--        </form>-->
+
+
+
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+

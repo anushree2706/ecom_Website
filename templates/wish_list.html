@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<main>
+    <div class="container">
+        <div class="row wow fadeIn">
+          {% for item in wishlist_item %}
+          <div class="col-6 col-lg-3 col-md-6 mb-4 procol">
+              <div class="card product">
+              <div class="view overlay">
+              <div class="innerimage">
+                <img src="{{ item.item.image.url }}" class="card-img-top">
+
+                <a href="{{ item.item.get_absolute_url }}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+                    <div class="on_image">
+                        <a href="{% url 'core:remove_from_wish_list' slug=item.item.slug %}"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                    </div>
+              </div>
+              </div>
+
+              <div class="card-body card-body1 text-center">
+                <div class="item.item_title mx-auto">
+                    <a style="overflow" href="{{ item.item.get_absolute_url }}" class="dark-grey-text">{{ item.item.title }}</a>
+                </div>
+
+                <h6 class="font-weight-bold pt-2">
+                  <strong>
+                  {% if item.item.discount_price %}
+                <del>₹{{ item.item.price }}</del>
+                  ₹{{ item.item.discount_price }}
+                  {% else %}
+                  ₹{{ item.item.price }}
+                  {% endif %}
+                      <br>
+<!--                      <h6><a style="color:grey;" href="{% url 'core:remove_from_wish_list' item.item.slug %}">Remove from wishlist</a></h6>-->
+                  </strong>
+                </h6>
+
+              </div>
+
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+    </div>
+  </main>
+
+{% endblock content %}

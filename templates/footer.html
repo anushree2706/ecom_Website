@@ -1,0 +1,115 @@
+{% load static %}
+
+<footer class="page-footer  font-small mt-4 wow fadeIn">
+    <div clss="" style="background:#7E94AA;">
+        <div class="container" style="color:#082340;">
+            <div class="row pt-1 flex-container text-center my-auto">
+                <div class="col-4 mx-auto">
+                    <h4><i  class=" fas fa-exchange-alt"></i></h4>
+                    <h5>EASY EXCHANGE</h5>
+                </div>
+                <div class="col-4 mx-auto ">
+                    <h4><i  class=" fas fa-hand-holding-heart"></i></h4>
+                    <h5>100% HAND PICKED</h5>
+                </div>
+                <div class="col-4 mx-auto">
+                    <h4><i class="fas fa-certificate"></i></h4>
+                    <h5>ASSURED QUALITY</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-field">
+    <div class="container  pt-2 my-auto px-3" >
+        <div class="row mt-3">
+        <div class="col-6 col-md-3 col-lg-3 lists">
+            <ol>{% if request.user.is_authenticated %}
+                <h6>My BIBZ</h6>
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'core:accounts' %}">My Account</a></li>
+                <li><a href="{% url 'core:wish_lists' %}">My Wishlist</a></li>
+                <li><a href="{% url 'core:accounts' %}">My Orders</a></li>
+                <li><a href="{% url 'core:order-summary' %}">My Cart</a></li>
+                {% else %}
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'accounts:account_login' %}">My Account</a></li>
+                <li><a href="{% url 'accounts:account_login' %}">My Wishlist</a></li>
+                <li><a href="{% url 'accounts:account_login' %}">My Orders</a></li>
+                <li><a href="{% url 'accounts:account_login' %}">My Cart</a></li>
+                {% endif %}
+            </ol>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 lists ">
+            <ol class="ol1">
+                <h6>Social Communities</h6>
+                <a href="https://www.facebook.com/" target="_blank"> <i class="px-1 fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/?hl=en" target="_blank"></a><i class="px-1 fab fa-instagram"></i>
+                <a href="https://www.whatsapp.com/" target="_blank"></a><i class="px-1 fab fa-whatsapp"></i>
+                <a href="https://twitter.com/login" target="_blank"></a><i class="px-1 fab fa-twitter"></i>
+            </ol>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 lists ">
+            <ol>
+                <h6>Help</h6>
+                <li><a href="{% url 'accounts:contact' %}"><i class=" fa fa-envelope" aria-hidden="true"></i> - email@email.com</a></li>
+                <li><a href="https://www.whatsapp.com/" target="_blank"><i class=" fab fa-whatsapp"></i> - 08042045246</a></li>
+            </ol>
+        </div>
+        <div class="col-6 col-md-3 col-lg-3 lists ">
+            <ol>
+                <h6>Reach Us</h6>
+                <li><a href="{% url 'accounts:contact' %}">Google Map &nbsp<i class="fa fa-link" aria-hidden="true"></i></a></li>
+                <li><p>70/9 Channakrishnappa Building<br> Thindlu Main Road K Veeranna Layout Vidyaranyapura Post<br> Bangalore - 560097<br>
+                MOB - 08042045246</p></li>
+            </ol>
+        </div>
+
+        </div>
+    </div>
+    </div>
+
+
+
+    <div clss="container-field">
+        <div class="container">
+        <div class="row">
+        <div class="col-12 col-md-4 col-lg-4 my-auto" style="color:white;">
+            <h6 class="pay">Payment methods</h6>
+                <div class="flex-container my-auto">
+                    <h6>Net <h6 class="banking">Banking</h6></h6>
+                    <h6 class="px-2"><i class="fab fa-cc-visa"></i></h6>
+                    <h6 class="px-1"><i class="fa fa-credit-card" aria-hidden="true"></i></h6>
+                    <h6 class="px-1">Paytm</h6>
+                    <h6 class="px-1">COD</h6>
+                </div>
+        </div>
+        <div class="col-12 col-md-8 col-lg-8 my-auto " style="color:white;">
+            <h6 class="">POLICY</h6>
+            <div class="flex-container my-auto">
+                <p><a href="{% url 'accounts:terms' %}" >Conditions of Use & Sale</a> </p>
+                <p class="px-2"><a href="" >Return Policy</a></p>
+                <p class="px-1"><a href="" >Privacy policy</a></p>
+                <p class="px-1"><a href="" >Disclaimer</a></p>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <!--Payment details -->
+
+    <!--Copyright-->
+    <div clss="" style="padding-top:5px;">
+        <div class="" style="color:white;">
+            <div class="flex-container my-auto">
+                <div class="mx-auto ">
+                    © 2019 Copyright BIBZ.COM
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.Copyright-->
+
+
+  </footer>

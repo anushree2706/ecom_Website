@@ -1,0 +1,47 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+{% load static %}
+{% if error %}
+{{error}}
+{% endif %}
+<main><link href="{% static 'css/formss.css' %}" rel="stylesheet">
+<div class="container">
+    <section class="mt-2 pt-2">
+        <div class="row wow fadeIn">
+        <div class="card m-1 p-4 mx-auto" style="width:500px!important;">
+            <h1>Sign Up</h1>
+            <p>Already have an account? Then please <a href="{% url 'accounts:account_login' %}" style="color:#007e92;">Sign in</a>.</p>
+            <form action="{% url 'accounts:account_signup' %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <input type="text" name="uname" id="" class="form-control mt-2" required>
+                    <label>Username<span>*</span></label>
+                </div>
+                <div>
+                    <input type="email" name="email" id="" class="form-control"  required>
+                    <label>email<span>*</span></label>
+                </div>
+                <div>
+                    <input type="password" name="pass" id="" class="form-control"  required>
+                    <label>Password<span>*</span></label>
+                </div>
+                <div>
+                    <input type="password" name="passwordagain" id="" class="form-control"  required>
+                    <label>confirm password<span>*</span></label>
+                </div>
+                <div>
+                    <input type="tel" name="phone" id="" class="form-control" maxlength="13" required>
+                    <label>Phone<span>*</span></label>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary" type="submit" value="signup">Sign Up</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </section>
+</div>
+</main>
+{% endblock content %}
